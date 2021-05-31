@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:split_it/modules/login/login_controller.dart';
+import 'package:split_it/modules/login/login_state.dart';
 import 'package:split_it/modules/login/widgets/social_button.dart';
 import 'package:split_it/theme/app_theme.dart';
 
@@ -10,6 +12,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late LoginController controller;
+
+  @override
+  void initState() {
+    controller = LoginController(onUpdate: () {
+      if (controller.state is LoginStateSuccess) {
+        final user = (controller.state as LoginStateSuccess).user;
+        Navigator.pushReplacementNamed(context, "/home", arguments: user);
+      } else {
+        setState(() {});
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,27 +67,36 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 32,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
+              if (controller.state is LoginStateLoading) ...[
+                CircularProgressIndicator(),
+              ] else if (controller.state is LoginStateFailure) ...[
+                Text((controller.state as LoginStateFailure).message)
+              ] else
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                  ),
+                  child: SocialButtonWidget(
+                    imagePath: "assets/images/google.png",
+                    label: "Entrar com Google",
+                    onTap: () {
+                      controller.googleSignIn();
+                    },
+                  ),
                 ),
-                child: SocialButtonWidget(
-                  imagePath: "assets/images/google.png",
-                  label: "Entrar com Google",
-                ),
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                ),
-                child: SocialButtonWidget(
-                  imagePath: "assets/images/apple.png",
-                  label: "Entrar com Apple",
-                ),
-              ),
+              // SizedBox(
+              //   height: 12,
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(
+              //     horizontal: 32,
+              //   ),
+              //   child: SocialButtonWidget(
+              //     imagePath: "assets/images/apple.png",
+              //     label: "Entrar com Apple",
+              //     onTap: () {},
+              //   ),
+              // ),
             ],
           )
         ],
