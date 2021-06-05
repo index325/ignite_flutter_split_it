@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:split_it/modules/home/widgets/home_appbar.dart';
+import 'package:split_it/modules/home/widgets/app_bar_widget.dart';
+import 'package:split_it/modules/home/widgets/info_card_widget.dart';
 import 'package:split_it/modules/login/models/user_model.dart';
 
 class HomePage extends StatelessWidget {
@@ -10,12 +11,11 @@ class HomePage extends StatelessWidget {
     final UserModel user =
         ModalRoute.of(context)!.settings.arguments as UserModel;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(262),
-        child: HomeAppbarWidget(
-          user: user,
-        ),
+      appBar: AppBarWidget(
+        user: user,
+        onTapAddButton: () {},
       ),
+      body: InfoCardWidget(),
     );
   }
 }
