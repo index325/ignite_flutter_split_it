@@ -19,7 +19,9 @@ class AddButtonWidget extends StatelessWidget {
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(10),
           border: Border.fromBorderSide(
-            BorderSide(color: AppTheme.colors.border2.withOpacity(0.25)),
+            BorderSide(
+              color: AppTheme.colors.border2.withOpacity(0.25),
+            ),
           ),
         ),
         width: 48,

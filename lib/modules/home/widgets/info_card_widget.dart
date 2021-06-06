@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
+
+import 'package:split_it/modules/home/widgets/icon_dollar_widget.dart';
+import 'package:split_it/modules/home/widgets/loading_widget.dart';
+import 'package:split_it/theme/app_text_styles.dart';
 import 'package:split_it/theme/app_theme.dart';
 
 class InfoCardWidget extends StatelessWidget {
-  const InfoCardWidget({Key? key}) : super(key: key);
+  final double value;
+  final bool isLoading;
+
+  const InfoCardWidget({
+    Key? key,
+    required this.value,
+    this.isLoading = false,
+  }) : super(key: key);
+
+  TextStyle get textStyle => value >= 0
+      ? AppTheme.textStyles.infoCardSubtitle1
+      : AppTheme.textStyles.infoCardSubtitle2;
+
+  IconDollarType get iconDollarType =>
+      value >= 0 ? IconDollarType.receive : IconDollarType.send;
+
+  String get title => value >= 0 ? "A receber" : "A pagar";
 
   @override
   Widget build(BuildContext context) {
@@ -21,25 +42,27 @@ class InfoCardWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 48,
-            height: 48,
-            color: AppTheme.colors.iconBackground1,
-          ),
+          IconDollarWidget(type: iconDollarType),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "A receber",
+                title,
                 style: AppTheme.textStyles.infoCardTitle,
               ),
               SizedBox(
                 height: 4,
               ),
-              Text(
-                "R\$ 145,00",
-                style: AppTheme.textStyles.infoCardSubtitle1,
-              ),
+              if (isLoading) ...[
+                LoadingWidget(
+                  size: Size(94, 24),
+                )
+              ] else ...[
+                Text(
+                  "R\$ ${value}",
+                  style: textStyle,
+                ),
+              ]
             ],
           )
         ],
