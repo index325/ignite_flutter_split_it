@@ -15,6 +15,12 @@ abstract class AppTextStyles {
   TextStyle get eventTilePeople;
   TextStyle get stepperIndicatorPrimary;
   TextStyle get stepperIndicatorSecondary;
+  TextStyle get stepperNextButton;
+  TextStyle get stepperTitle;
+  TextStyle get stepperSubtitle;
+  TextStyle get hintTextField;
+  TextStyle get textField;
+  TextStyle get stepperNextButtonDisabled;
 }
 
 class AppTextStylesDefault implements AppTextStyles {
@@ -100,5 +106,47 @@ class AppTextStylesDefault implements AppTextStyles {
         color: AppTheme.colors.stepperIndicatorSecondary,
         fontSize: 14,
         fontWeight: FontWeight.w400,
+      );
+
+  @override
+  TextStyle get stepperNextButton => GoogleFonts.inter(
+        color: AppTheme.colors.stepperNextButton,
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+      );
+
+  @override
+  TextStyle get stepperSubtitle => GoogleFonts.inter(
+        color: AppTheme.colors.stepperSubtitle,
+        fontSize: 24,
+        fontWeight: FontWeight.w400,
+      );
+
+  @override
+  TextStyle get stepperTitle => GoogleFonts.inter(
+        color: AppTheme.colors.stepperTitle,
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+      );
+
+  @override
+  TextStyle get hintTextField => GoogleFonts.inter(
+        color: AppTheme.colors.hintTextField,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+      );
+
+  @override
+  TextStyle get textField => GoogleFonts.inter(
+        color: AppTheme.colors.textField,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      );
+
+  @override
+  TextStyle get stepperNextButtonDisabled => GoogleFonts.inter(
+        color: AppTheme.colors.stepperNextButtonDisabled,
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
       );
 }
