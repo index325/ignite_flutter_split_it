@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:split_it/modules/create_split/create_split_controller.dart';
 import 'package:split_it/modules/create_split/steps/one/step_one_page.dart';
 import 'package:split_it/modules/create_split/steps/three/step_three_page.dart';
@@ -23,10 +24,7 @@ class _CreateSplitPageState extends State<CreateSplitPage> {
   void initState() {
     pages = [
       StepOnePage(
-        onChange: (value) {
-          controller.setEventName(value);
-          setState(() {});
-        },
+        controller: controller,
       ),
       StepTwoPage(),
       StepThreePage(),
@@ -34,38 +32,23 @@ class _CreateSplitPageState extends State<CreateSplitPage> {
     super.initState();
   }
 
-  var index = 0;
-
-  void nextPage() {
-    if (index < 2) {
-      setState(() {
-        index++;
-      });
-    }
-  }
-
-  void backPage() {
-    if (index > 0) {
-      setState(() {
-        index--;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.colors.backgroundPrimary,
       appBar: CreateSplitAppbarWidget(
-        actualPage: index,
-        onTapBack: backPage,
+        controller: controller,
+        onTapBack: controller.backPage,
         pageSize: pages.length,
       ),
-      body: pages[index],
+      body: Observer(builder: (_) {
+        final index = controller.currentPage;
+        return pages[index];
+      }),
       bottomNavigationBar: BottomStepperBarWidget(
-        enabledButtons: controller.enableNavigateButton(),
+        controller: controller,
         onTapCancel: () {},
-        onTapNext: nextPage,
+        onTapNext: controller.nextPage,
       ),
     );
   }
